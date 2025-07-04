@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.zfml.movievibe.presentation.home.HomeScreen
+import com.zfml.movievibe.presentation.main.MainScreen
 import com.zfml.movievibe.ui.theme.MovieVibeTheme
 import dagger.hilt.EntryPoint
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,7 +24,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MovieVibeTheme {
-                HomeScreen()
+                MainScreen()
             }
         }
     }

@@ -37,6 +37,8 @@ fun HomeScreen(
 ) {
 
     val popularMovies = viewModel.popularMovies.collectAsLazyPagingItems()
+    val topRatedMovies = viewModel.popularMovies.collectAsLazyPagingItems().itemSnapshotList.items.take(5)
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -56,6 +58,10 @@ fun HomeScreen(
                     .padding(paddingValues)
             ) {
 
+
+                TopRatedPagerSection(
+                    topRatedMovies
+                )
 
 
                 PopularMovieList(

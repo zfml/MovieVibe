@@ -65,7 +65,7 @@ fun MovieCard(
                     modifier = Modifier
                         .padding(6.dp)
                         .background(
-                            color = Color.White.copy(alpha = 0.2f),
+                            color = Color.White.copy(alpha = 0.4f),
                             shape = RoundedCornerShape(6.dp)
                         )
                         .padding(horizontal = 6.dp, vertical = 2.dp)
@@ -76,13 +76,13 @@ fun MovieCard(
                         imageVector = Icons.Filled.Star,
                         contentDescription = "Rating Star",
                         tint = Color.White,
-                        modifier = Modifier.size(12.dp)
+                        modifier = Modifier.size(16.dp)
                     )
                     Spacer(modifier = Modifier.width(4.dp))
                     Text(
                         text = String.format("%.1f", movie.rating),
                         color = Color.White,
-                        fontSize = 10.sp,
+                        fontSize = 12.sp,
                         fontWeight = FontWeight.SemiBold
                     )
                 }
