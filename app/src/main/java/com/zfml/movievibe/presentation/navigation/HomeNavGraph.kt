@@ -8,6 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.zfml.movievibe.R
 import com.zfml.movievibe.presentation.home.HomeScreen
+import com.zfml.movievibe.presentation.search.SearchScreen
 import kotlinx.serialization.Serializable
 
 enum class Destination(
@@ -45,7 +46,8 @@ enum class Destination(
 fun AppNavHost(
     navController: NavHostController,
     startDestination: Destination,
-    modifier: Modifier = Modifier,
+    modifier: Modifier,
+    navigateToDetailScreen:(Int) -> Unit
 
 ) {
     NavHost(
@@ -56,28 +58,21 @@ fun AppNavHost(
             composable(destination.route) {
                 when (destination) {
                     Destination.HOME -> HomeScreen(
+                        navigateToDetailScreen = navigateToDetailScreen
                     )
+
                     Destination.FAVOURITE ->  {
                         Text("I am Favourite")
                     }
                     Destination.SEARCH -> {
-                        Text("I am Search")
+                        SearchScreen(
+                            navigateToDetailScreen = navigateToDetailScreen
+                        )
                     }
                 }
             }
         }
 
-
-        composable<HomeScreen> (
-            content = {
-                HomeScreen()
-            }
-        )
-
-
-        composable<SearchScreen> {
-            Text("I am a search screen")
-        }
 
 
 

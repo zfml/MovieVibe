@@ -1,5 +1,6 @@
 package com.zfml.movievibe.presentation.main
 
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -17,15 +18,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.navigation.NavGraph.Companion.findStartDestination
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
+
 import androidx.navigation.compose.rememberNavController
 import com.zfml.movievibe.presentation.navigation.AppNavHost
 import com.zfml.movievibe.presentation.navigation.Destination
 import com.zfml.movievibe.ui.theme.poppinsFontFamily
 
 @Composable
-fun MainScreen() {
+fun MainScreen(
+    navigateToDetailScreen: (Int) -> Unit
+) {
 
     val navController = rememberNavController()
     val startDestination = Destination.HOME
@@ -38,6 +40,7 @@ fun MainScreen() {
         },
         content = { paddingValues ->
             AppNavHost(
+                navigateToDetailScreen  =navigateToDetailScreen,
                 navController = navController,
                 startDestination = Destination.HOME,
                 modifier = Modifier.padding(paddingValues)
@@ -45,6 +48,8 @@ fun MainScreen() {
         },
         bottomBar = {
             NavigationBar(
+                modifier =  Modifier
+                    .navigationBarsPadding(),
                 windowInsets = NavigationBarDefaults.windowInsets,
             ) {
                 Destination.entries.forEachIndexed { index, destination ->

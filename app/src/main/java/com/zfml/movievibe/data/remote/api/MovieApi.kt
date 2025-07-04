@@ -6,6 +6,7 @@ import com.zfml.movievibe.data.remote.model.MovieResponse
 import com.zfml.movievibe.util.Constants
 import com.zfml.movievibe.util.Constants.MOVIE_END_POINT
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface MovieApi {
@@ -27,5 +28,18 @@ interface MovieApi {
         @Query("page") page: Int,
         @Query("api_key") apiKey: String = BuildConfig.API_KEY
     ): MovieResponse
+
+    @GET("search/movie")
+    suspend fun searchMovies(
+        @Query("query") query: String,
+        @Query("page") page: Int,
+        @Query("api_key") apiKey: String = BuildConfig.API_KEY
+    ): MovieResponse
+
+    @GET("movie/{movie_id}")
+    suspend fun getMovieDetail(
+        @Path("movie_id") movieId: Int,
+        @Query("api_key") apiKey: String = BuildConfig.API_KEY
+    ): MovieDto
 
 }

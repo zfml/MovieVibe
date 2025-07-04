@@ -1,5 +1,6 @@
 package com.zfml.movievibe.presentation.home
 
+import UpcomingMovieCard
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -8,9 +9,14 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -33,11 +39,13 @@ import kotlin.math.sign
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    viewModel: HomeViewModel = hiltViewModel()
+    viewModel: HomeViewModel = hiltViewModel(),
+    navigateToDetailScreen: (Int) -> Unit
 ) {
 
     val popularMovies = viewModel.popularMovies.collectAsLazyPagingItems()
-    val topRatedMovies = viewModel.popularMovies.collectAsLazyPagingItems().itemSnapshotList.items.take(5)
+    val upComingMovies = viewModel.upComingMovies.collectAsLazyPagingItems()
+    val topRatedMovies = viewModel.topRatedMovies.collectAsLazyPagingItems().itemSnapshotList.items.shuffled().take(5)
 
     Scaffold(
         topBar = {
@@ -56,6 +64,9 @@ fun HomeScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(paddingValues)
+                    .padding(bottom = 93.dp)
+                    .verticalScroll(rememberScrollState())
+
             ) {
 
 
@@ -63,16 +74,19 @@ fun HomeScreen(
                     topRatedMovies
                 )
 
-
                 PopularMovieList(
                     popularMovies,
-                    onSeeAllClick = {}
+                    onSeeAllClick = {},
+                    onMovieClicked = {
+                        navigateToDetailScreen(it)
+                    }
                 )
 
                 Spacer(Modifier.height(16.dp))
 
-                PopularMovieList(
-                    popularMovies,
+
+                UpcomingMovieList(
+                    movies = upComingMovies,
                     onSeeAllClick = {}
                 )
 
@@ -84,6 +98,7 @@ fun HomeScreen(
 @Composable
 fun PopularMovieList(
     popularMovies: LazyPagingItems<Movie>,
+    onMovieClicked: (Int) -> Unit,
     onSeeAllClick: () -> Unit // Callback for "See All" action
 ) {
     Column(
@@ -118,7 +133,56 @@ fun PopularMovieList(
         LazyRow {
             items(popularMovies.itemCount) { index ->
                 popularMovies[index]?.let {
-                    MovieCard(it)
+                    MovieCard(
+                        movie = it,
+                        onClicked = {
+                            onMovieClicked(it.id)
+                        }
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun UpcomingMovieList(
+    movies: LazyPagingItems<Movie>,
+    onSeeAllClick: () -> Unit // Callback for "See All" action
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 8.dp)
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "Upcoming Movies",
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold,
+                fontFamily = poppinsFontFamily
+            )
+            Text(
+                text = "See All",
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Medium,
+                fontFamily = poppinsFontFamily,
+                color = MaterialTheme.colorScheme.primary,
+                modifier = Modifier
+                    .clickable { onSeeAllClick() }
+            )
+        }
+
+        LazyRow {
+            items(movies.itemCount) { index ->
+                movies[index]?.let {
+                    UpcomingMovieCard(it)
                 }
             }
         }

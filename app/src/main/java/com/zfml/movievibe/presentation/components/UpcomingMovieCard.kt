@@ -1,7 +1,4 @@
-package com.zfml.movievibe.presentation.components
-
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -26,28 +23,21 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import com.zfml.movievibe.domain.model.Movie
 import com.zfml.movievibe.ui.theme.poppinsFontFamily
 import com.zfml.movievibe.util.Constants
-import dagger.Provides
 
 @Composable
-fun MovieCard(
-    movie: Movie,
-    onClicked: () -> Unit
+fun UpcomingMovieCard(
+    movie: Movie
 ) {
     Card(
         modifier = Modifier
             .width(149.dp)
-            .padding(8.dp)
-            .clickable {
-                onClicked()
-            }
-        ,
+            .padding(8.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
     ) {
         Column {
@@ -66,32 +56,6 @@ fun MovieCard(
                     contentDescription = null,
                 )
 
-                // Star rating overlay (top-left corner)
-                Row(
-                    modifier = Modifier
-                        .padding(6.dp)
-                        .background(
-                            color = Color.White.copy(alpha = 0.4f),
-                            shape = RoundedCornerShape(6.dp)
-                        )
-                        .padding(horizontal = 6.dp, vertical = 2.dp)
-                        .align(Alignment.TopStart),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Icon(
-                        imageVector = Icons.Filled.Star,
-                        contentDescription = "Rating Star",
-                        tint = Color.White,
-                        modifier = Modifier.size(16.dp)
-                    )
-                    Spacer(modifier = Modifier.width(4.dp))
-                    Text(
-                        text = String.format("%.1f", movie.rating),
-                        color = Color.White,
-                        fontSize = 12.sp,
-                        fontWeight = FontWeight.SemiBold
-                    )
-                }
             }
 
             // Title and release date
@@ -111,20 +75,4 @@ fun MovieCard(
             }
         }
     }
-}
-@Composable
-@Preview
-fun MovieCardPreview() {
-    MovieCard(
-        movie = Movie(
-            id = 1,
-            title = "Movie",
-            overview = "adf",
-            posterUrl = "",
-            backdropUrl ="",
-            releaseDate = "23432",
-            rating = 3.0
-        ),
-        onClicked = {}
-    )
 }

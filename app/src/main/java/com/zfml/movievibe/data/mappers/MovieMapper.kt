@@ -24,3 +24,15 @@ fun MovieEntity.toDomain() = Movie(
     releaseDate = releaseDate,
     rating = voteAverage,
 )
+
+fun MovieDto.toDomain(): Movie {
+    return Movie(
+        id = id,
+        title = title,
+        overview = overview,
+        posterUrl = poster_path,
+        backdropUrl = backdrop_path ?: "",
+        releaseDate = release_date,
+        rating = vote_average,
+    )
+}
