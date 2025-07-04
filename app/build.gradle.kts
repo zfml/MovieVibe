@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -7,6 +9,15 @@ plugins {
     alias(libs.plugins.hilt.android)
     alias(libs.plugins.kotlin.serialization)
 }
+// Read local.properties
+val localProperties = Properties()
+val localPropertiesFile = rootProject.file("local.properties")
+if (localPropertiesFile.exists()) {
+    localProperties.load(localPropertiesFile.inputStream())
+}
+
+// Read the API key
+val apiKey = localProperties["API_KEY"] as String? ?: "\"\""
 
 android {
     namespace = "com.zfml.movievibe"
@@ -20,6 +31,9 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", "API_KEY", "\"$apiKey\"")
+
     }
 
     buildTypes {
@@ -40,8 +54,13 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
+    }
+    kapt {
+        correctErrorTypes = true
     }
 }
+
 
 dependencies {
 
@@ -68,6 +87,8 @@ dependencies {
     implementation(libs.room.runtime)
     kapt(libs.room.compiler)  // Use kapt for Kotlin annotation processing
     implementation(libs.room.ktx)  // Optional: For Kotlin extensions
+    implementation(libs.room.paging)
+
 
     implementation(libs.navigation.compose)
     implementation(libs.kotlinx.serialization.json)
@@ -90,6 +111,13 @@ dependencies {
     implementation(libs.lifecycle.runtime.compose)
 
     implementation(libs.paging.compose)
+
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+
+    implementation(libs.coil.compose)
+
+    implementation(libs.coil.network.okhttp)
 
 
     testImplementation(libs.junit)
