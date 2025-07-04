@@ -1,5 +1,6 @@
 package com.zfml.movievibe.presentation.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -34,12 +35,14 @@ import com.zfml.movievibe.util.Constants
 @Composable
 fun SearchMovieCard(
     modifier: Modifier = Modifier,
-    movie: Movie
+    movie: Movie,
+    onClicked: () -> Unit
 ) {
 
     Card(
         modifier = Modifier
             .padding(8.dp)
+            .clickable { onClicked() }
         ,
         shape = RoundedCornerShape(10.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)

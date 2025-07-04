@@ -87,7 +87,8 @@ fun HomeScreen(
 
                 UpcomingMovieList(
                     movies = upComingMovies,
-                    onSeeAllClick = {}
+                    onSeeAllClick = {},
+                    onMovieClicked = navigateToDetailScreen
                 )
 
             }
@@ -148,8 +149,9 @@ fun PopularMovieList(
 @Composable
 fun UpcomingMovieList(
     movies: LazyPagingItems<Movie>,
-    onSeeAllClick: () -> Unit // Callback for "See All" action
-) {
+    onSeeAllClick: () -> Unit, // Callback for "See All" action,
+    onMovieClicked: (Int) -> Unit,
+    ) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -182,7 +184,12 @@ fun UpcomingMovieList(
         LazyRow {
             items(movies.itemCount) { index ->
                 movies[index]?.let {
-                    UpcomingMovieCard(it)
+                    UpcomingMovieCard(
+                        it,
+                        onClicked = {
+                            onMovieClicked(it.id)
+                        }
+                    )
                 }
             }
         }

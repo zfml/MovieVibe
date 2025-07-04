@@ -1,6 +1,8 @@
 package com.zfml.movievibe.presentation.search
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.CircularProgressIndicator
@@ -68,17 +70,26 @@ fun SearchScreen(
                     items(searchResults.itemCount) { index ->
                         val movie = searchResults[index]
                         if (movie != null) {
-                            SearchMovieCard(movie = movie)
+                            SearchMovieCard(
+                                movie = movie,
+                                onClicked = {
+                                    navigateToDetailScreen(movie.id)
+                                }
+                            )
                         }
                     }
 
                     searchResults.apply {
                         when {
                             loadState.refresh is LoadState.Loading -> {
-                                item { CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally)) }
+                                item {
+                                    LoadingScreen()
+                                }
                             }
                             loadState.append is LoadState.Loading -> {
-                                item { CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally)) }
+                                item {
+                                    LoadingScreen()
+                                }
                             }
                             loadState.refresh is LoadState.Error -> {
                                 val e = searchResults.loadState.refresh as LoadState.Error
@@ -93,4 +104,15 @@ fun SearchScreen(
 
         }
     )
+}
+
+@Composable
+fun LoadingScreen() {
+    Box(
+        modifier = Modifier
+            .fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        CircularProgressIndicator()
+    }
 }
