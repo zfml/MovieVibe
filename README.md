@@ -38,7 +38,7 @@
 
 
 
-<p align="center">
+<p align="left">
   <img src="assets/home.png" width="250" />
   <img src="assets/search.png" width="250" />
   <img src="assets/detail.png" width="250" />
