@@ -2,9 +2,6 @@
 
 **Movie Vibe** is a modern Android movie browsing app built with **Kotlin** and **Jetpack Compose**, using **The Movie Database (TMDB) API** to fetch real-time movie data. Explore top-rated, popular, and upcoming movies — all in one clean, performant UI.
 
-<p align="center">
-  <img src="your-demo-video-or-screenshot.gif" alt="Movie Vibe Demo" width="80%">
-</p>
 
 ---
 
